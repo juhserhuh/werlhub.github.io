@@ -1,72 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<script>
+    // Fetch the repos from localStorage or from static JSON (fallback to localStorage)
+    const reposContainer = document.getElementById('repos-container');
+    const repoList = JSON.parse(localStorage.getItem('repos') || '[]');
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Browse Repositories - Werlhub</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="assets/logo.png">
-</head>
+    if (repoList.length === 0) {
+        reposContainer.innerHTML = '<p>No repositories found. Create one!</p>';
+    } else {
+        repoList.forEach(repo => {
+            const repoElement = document.createElement('div');
+            repoElement.classList.add('repo');
 
-<body>
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <img src="assets/logo.png" alt="Werlhub Logo" class="logo">
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="repo-list.html">Browse Repos</a></li>
-                    <li><a href="cli/readme.md" target="_blank">CLI Tool</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+            repoElement.innerHTML = `
+                <h3><a href="${repo.url}" target="_blank">${repo.name}</a></h3>
+                <p>${repo.description}</p>
+                <p><strong>Created at:</strong> ${repo.created_at}</p>
+            `;
 
-    <!-- Main Content -->
-    <main>
-        <section class="repo-list">
-            <div class="container">
-                <h1>Repositories on Werlhub</h1>
-                <div id="repos-container"></div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer Section -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Werlhub. All rights reserved.</p>
-            <p><a href="index.html">Back to Home</a> | <a href="cli/readme.md" target="_blank">CLI Tool Documentation</a></p>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
-    <script>
-        // Fetch the repos from the JSON file
-        fetch('werlrepo.json')
-            .then(response => response.json())
-            .then(data => {
-                const reposContainer = document.getElementById('repos-container');
-
-                data.repos.forEach(repo => {
-                    const repoElement = document.createElement('div');
-                    repoElement.classList.add('repo');
-
-                    repoElement.innerHTML = `
-                        <h3><a href="${repo.url}" target="_blank">${repo.name}</a></h3>
-                        <p>${repo.description}</p>
-                        <p><strong>Created at:</strong> ${repo.created_at}</p>
-                    `;
-
-                    reposContainer.appendChild(repoElement);
-                });
-            })
-            .catch(error => console.error('Error loading repos:', error));
-    </script>
-</body>
-
-</html>
+            reposContainer.appendChild(repoElement);
+        });
+    }
+</script>
