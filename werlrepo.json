@@ -1,0 +1,10 @@
+{
+    "repos": [
+        {
+            "name": "werl-cli",
+            "description": "The CLI tool for Werlhub. Allows you to easily clone repositories using the 'werl' command.",
+            "url": "https://github.com/werlhub/werl-cli",
+            "created_at": "2024-12-07"
+        }
+    ]
+}
