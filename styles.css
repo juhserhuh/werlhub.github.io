@@ -1,0 +1,176 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #2E3436; /* Dark background like i3wm */
+    color: #D3D7CF;  /* Light text color */
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+    color: #729FCF; /* Light blue color for links */
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    background-color: #1E2320; /* Dark grey background */
+    padding: 20px 0;
+}
+
+header .logo {
+    width: 40px;
+    vertical-align: middle;
+}
+
+header nav ul {
+    display: inline-block;
+    float: right;
+    list-style-type: none;
+}
+
+header nav ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    font-weight: bold;
+    color: #D3D7CF;
+    font-size: 14px;
+}
+
+header nav ul li a:hover {
+    color: #F57900; /* Highlight color on hover */
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #555B58; /* Lighter dark grey */
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #F57900; /* i3wm accent color */
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #D3D7CF;
+}
+
+.hero .btn {
+    background-color: #2E3436; /* Dark button */
+    color: #F57900; /* Button text color */
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: 1px solid #F57900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.hero .btn:hover {
+    background-color: #F57900;
+    color: #2E3436;
+}
+
+/* Features Section */
+.features {
+    padding: 50px 0;
+    background-color: #373B3F; /* Slightly lighter grey */
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #F57900;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.feature-item h3 {
+    font-size: 1.5rem;
+    color: #D3D7CF;
+    flex: 1;
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: #A1B0B7; /* Light grey text */
+    flex: 2;
+}
+
+/* Call to Action */
+.call-to-action {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #1E2320; /* Dark background */
+}
+
+.call-to-action h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #F57900;
+}
+
+.call-to-action p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #D3D7CF;
+}
+
+.call-to-action .btn {
+    background-color: #2E3436;
+    color: #F57900;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: 1px solid #F57900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.call-to-action .btn:hover {
+    background-color: #F57900;
+    color: #2E3436;
+}
+
+/* Footer */
+footer {
+    background-color: #1E2320;
+    padding: 20px 0;
+    text-align: center;
+    color: #A1B0B7;
+}
+
+footer a {
+    color: #729FCF;
+}
+
+footer a:hover {
+    color: #F57900;
+}
