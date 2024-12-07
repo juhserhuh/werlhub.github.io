@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create a Repo - Werlhub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/logo.png">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <img src="assets/logo.png" alt="Werlhub Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="repo-list.html">Browse Repos</a></li>
+                    <li><a href="create-repo.html">Create a Repo</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="create-repo">
+            <div class="container">
+                <h1>Create a New Repository</h1>
+                <form id="create-repo-form">
+                    <label for="repo-name">Repository Name</label>
+                    <input type="text" id="repo-name" required placeholder="Enter repo name">
+
+                    <label for="repo-description">Description</label>
+                    <textarea id="repo-description" required placeholder="Enter repo description"></textarea>
+
+                    <button type="submit" class="btn">Create Repo</button>
+                </form>
+
+                <div id="repo-message"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Werlhub. All rights reserved.</p>
+            <p><a href="index.html">Back to Home</a> | <a href="repo-list.html">Browse Repositories</a></p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('create-repo-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form values
+            const repoName = document.getElementById('repo-name').value;
+            const repoDescription = document.getElementById('repo-description').value;
+
+            // Simulating adding the new repo to the JSON file (client-side)
+            const newRepo = {
+                name: repoName,
+                description: repoDescription,
+                url: `https://github.com/werlhub/${repoName}`,
+                created_at: new Date().toLocaleDateString()
+            };
+
+            // Show success message
+            const message = document.getElementById('repo-message');
+            message.textContent = `Repository "${repoName}" created successfully!`;
+
+            // Ideally, here we would send the new repo data to a server to save it persistently.
+
+            // Simulate saving the repo to a local array (in reality, you would need a backend to persist this)
+            const repoList = JSON.parse(localStorage.getItem('repos') || '[]');
+            repoList.push(newRepo);
+
+            // Save to localStorage to simulate saving the repos (for demo purposes)
+            localStorage.setItem('repos', JSON.stringify(repoList));
+
+            // Clear the form
+            document.getElementById('create-repo-form').reset();
+        });
+    </script>
+</body>
+
+</html>
