@@ -1,62 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create a Repo - Werlhub</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+<?php
+// Path to the JSON file
+$file_path = 'werlrepo.json';
 
-<header>
-    <h1>Werlhub - Create a New Repository</h1>
-</header>
+// Check if the file exists, and if so, read its content
+if (file_exists($file_path)) {
+    $json_data = file_get_contents($file_path);
+    $repo_data = json_decode($json_data, true);
+} else {
+    $repo_data = ['repos' => []]; // If no file, initialize an empty array
+}
 
-<main>
-    <section class="create-repo">
-        <form id="create-repo-form">
-            <label for="repo-name">Repository Name</label>
-            <input type="text" id="repo-name" name="repo_name" required placeholder="Enter repo name">
+// Check if data was sent via POST method
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $repo_name = $_POST['repo_name'];
+    $repo_description = $_POST['repo_description'];
 
-            <label for="repo-description">Description</label>
-            <textarea id="repo-description" name="repo_description" required placeholder="Enter repo description"></textarea>
+    // Validate the data
+    if (!empty($repo_name) && !empty($repo_description)) {
+        // Create new repo array
+        $new_repo = [
+            'name' => $repo_name,
+            'description' => $repo_description,
+            'url' => 'https://github.com/werlhub/' . urlencode($repo_name),
+            'created_at' => date('Y-m-d H:i:s')
+        ];
 
-            <button type="submit">Create Repo</button>
-        </form>
-        <div id="response-message"></div>
-    </section>
-</main>
+        // Add the new repo to the list of repositories
+        $repo_data['repos'][] = $new_repo;
 
-<script>
-// Handle form submission with AJAX
-document.getElementById('create-repo-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form from submitting the traditional way
-
-    var formData = new FormData(this);
-
-    // Send the form data via AJAX to the PHP script
-    fetch('createRepo.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Display response message from the PHP script
-        var messageDiv = document.getElementById('response-message');
-        messageDiv.textContent = data.message;
-        messageDiv.style.color = data.message.includes('successfully') ? 'green' : 'red';
-        
-        // Optionally, reset the form
-        if (data.message.includes('successfully')) {
-            document.getElementById('create-repo-form').reset();
+        // Save the updated data back to the JSON file
+        if (file_put_contents($file_path, json_encode($repo_data, JSON_PRETTY_PRINT))) {
+            echo json_encode(['message' => 'Repository created successfully!', 'repo' => $new_repo]);
+        } else {
+            echo json_encode(['message' => 'Error saving the repository data.']);
         }
-    })
-    .catch(error => {
-        document.getElementById('response-message').textContent = 'An error occurred. Please try again later.';
-    });
-});
-</script>
-
-</body>
-</html>
+    } else {
+        echo json_encode(['message' => 'Both repo name and description are required.']);
+    }
+} else {
+    echo json_encode(['message' => 'Invalid request method.']);
+}
+?>
