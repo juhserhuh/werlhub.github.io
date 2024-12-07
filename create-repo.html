@@ -1,93 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Create a Repo - Werlhub</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="assets/logo.png">
 </head>
-
 <body>
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <img src="assets/logo.png" alt="Werlhub Logo" class="logo">
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="repo-list.html">Browse Repos</a></li>
-                    <li><a href="create-repo.html">Create a Repo</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <main>
-        <section class="create-repo">
-            <div class="container">
-                <h1>Create a New Repository</h1>
-                <form id="create-repo-form">
-                    <label for="repo-name">Repository Name</label>
-                    <input type="text" id="repo-name" required placeholder="Enter repo name">
+<header>
+    <h1>Werlhub - Create a New Repository</h1>
+</header>
 
-                    <label for="repo-description">Description</label>
-                    <textarea id="repo-description" required placeholder="Enter repo description"></textarea>
+<main>
+    <section class="create-repo">
+        <form id="create-repo-form">
+            <label for="repo-name">Repository Name</label>
+            <input type="text" id="repo-name" name="repo_name" required placeholder="Enter repo name">
 
-                    <button type="submit" class="btn">Create Repo</button>
-                </form>
+            <label for="repo-description">Description</label>
+            <textarea id="repo-description" name="repo_description" required placeholder="Enter repo description"></textarea>
 
-                <div id="repo-message"></div>
-            </div>
-        </section>
-    </main>
+            <button type="submit">Create Repo</button>
+        </form>
+        <div id="response-message"></div>
+    </section>
+</main>
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Werlhub. All rights reserved.</p>
-            <p><a href="index.html">Back to Home</a> | <a href="repo-list.html">Browse Repositories</a></p>
-        </div>
-    </footer>
+<script>
+// Handle form submission with AJAX
+document.getElementById('create-repo-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting the traditional way
 
-    <script src="js/main.js"></script>
-    <script>
-        document.getElementById('create-repo-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+    var formData = new FormData(this);
 
-            // Get form values
-            const repoName = document.getElementById('repo-name').value;
-            const repoDescription = document.getElementById('repo-description').value;
-
-            // Simulating adding the new repo to the JSON file (client-side)
-            const newRepo = {
-                name: repoName,
-                description: repoDescription,
-                url: `https://github.com/werlhub/${repoName}`,
-                created_at: new Date().toLocaleDateString()
-            };
-
-            // Show success message
-            const message = document.getElementById('repo-message');
-            message.textContent = `Repository "${repoName}" created successfully!`;
-
-            // Ideally, here we would send the new repo data to a server to save it persistently.
-
-            // Simulate saving the repo to a local array (in reality, you would need a backend to persist this)
-            const repoList = JSON.parse(localStorage.getItem('repos') || '[]');
-            repoList.push(newRepo);
-
-            // Save to localStorage to simulate saving the repos (for demo purposes)
-            localStorage.setItem('repos', JSON.stringify(repoList));
-
-            // Clear the form
+    // Send the form data via AJAX to the PHP script
+    fetch('createRepo.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display response message from the PHP script
+        var messageDiv = document.getElementById('response-message');
+        messageDiv.textContent = data.message;
+        messageDiv.style.color = data.message.includes('successfully') ? 'green' : 'red';
+        
+        // Optionally, reset the form
+        if (data.message.includes('successfully')) {
             document.getElementById('create-repo-form').reset();
-        });
-    </script>
-</body>
+        }
+    })
+    .catch(error => {
+        document.getElementById('response-message').textContent = 'An error occurred. Please try again later.';
+    });
+});
+</script>
 
+</body>
 </html>
